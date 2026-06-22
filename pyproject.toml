@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "barista"
+version = "0.1.0"
+description = "Barista Agent — a deterministic, auditable order-taking decision engine"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "pylint"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "--cov=barista --cov-report=term-missing --cov-fail-under=90"
+
+[tool.pylint.main]
+# missing-docstring is intentionally on: docstrings are a hard gate (see SPEC/architecture).
+source-roots = ["src"]
+
+[tool.pylint."messages control"]
+disable = [
+    "too-few-public-methods",   # rule classes are intentionally single-method
+    "redefined-outer-name",     # common pattern with pytest fixtures in tests
+    "duplicate-code",           # parallel test structures and similar fixtures across rules
+    "too-many-arguments",       # Agent shell entrypoint takes multiple parameters (e.g. assets_dir, api_client, model_name)
+    "too-many-positional-arguments", # Allowed for shell/I/O endpoints wrapping multiple features
+    "broad-exception-caught",   # Best-effort I/O operations (mkdir, API calls) must never crash the deterministic order flow
+]
+
+
