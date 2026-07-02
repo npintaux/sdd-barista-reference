@@ -7,18 +7,19 @@ set -euo pipefail
 
 # Print instructions / usage
 usage() {
-    echo "Usage: $0 <new_local_directory> <new_github_repo_name>"
-    echo "Example: $0 /home/user/my-new-barista-demo my-new-barista-demo"
+    echo "Usage: $0 <new_local_directory>"
+    echo "Example: $0 /home/user/my-new-barista-demo"
+    echo "Note: The GitHub repository name will be automatically set to the directory's folder name."
     exit 1
 }
 
 # 1. Check arguments
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 1 ]; then
     usage
 fi
 
 NEW_DIR="$1"
-REPO_NAME="$2"
+REPO_NAME="$(basename "$NEW_DIR")"
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "=== SDD Barista Demo Replicator ==="

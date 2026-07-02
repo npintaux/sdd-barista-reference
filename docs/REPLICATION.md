@@ -14,6 +14,7 @@ This guide walks you through copying your Spec-Driven-Development (SDD) environm
    - [Phase B: Specify a User Story (`/specify`)](#phase-b-specify-a-user-story-specify)
    - [Phase C: Implement Code via TDD (`/implement`)](#phase-c-implement-code-via-tdd-implement)
    - [Phase D: Commit and Ship (`/commit` and `/ship`)](#phase-d-commit-and-ship-commit-and-ship)
+6. [Step 5: Cleaning Up the Demo Environment](#-step-5-cleaning-up-the-demo-environment)
 
 ---
 
@@ -30,15 +31,15 @@ Before you start, make sure you have:
 You can replicate the environment either automatically (recommended) or manually.
 
 ### Option A: Automatic Replication (Easiest)
-We have provided an automated bash utility script, `duplicate-demo.sh`, in the root of the template repository. This script automates copying files, initializing Git, creating the GitHub repo, and pushing the initial structure. It also takes care to exclude replication-specific tools (such as the script itself and this replication guide) from your new workspace, keeping your environment perfectly clean.
+We have provided an automated bash utility script, `duplicate-demo.sh`, in the root of the template repository. This script automates copying files, initializing Git, creating the GitHub repo, and pushing the initial structure. It automatically names the remote repository **identically to your target folder name** (the basename of your path) and automatically excludes replication-specific tools (such as the script itself and this replication guide) from your new workspace, keeping your environment perfectly clean.
 
-Run the script by passing the **target local directory** and the **new GitHub repository name**:
+Run the script by passing only the **target local directory**:
 ```bash
 # Make sure you are in the template directory
 cd /home/user/sdd-barista-reference
 
-# Run the replication script
-./duplicate-demo.sh /home/user/my-new-barista-demo my-new-barista-demo
+# Run the replication script with your folder path
+./duplicate-demo.sh /home/user/my-new-barista-demo
 ```
 This is a one-touch command that handles Steps 1, 2, and 3 for you! Once it finishes successfully, you can skip directly to **[Step 4: Running the SDD Demo Workflow](#-step-4-running-the-sdd-demo-workflow)**.
 
@@ -72,7 +73,9 @@ ls -la
 
 ## 🌐 Step 2: Creating a New GitHub Repository
 
-You need a new GitHub repository to store your backlog and your code. You can do this in two ways:
+*(Note: If you used Option A above, this has already been done for you!)*
+
+You need a new GitHub repository named identically to your target folder to store your backlog and your code. You can do this in two ways:
 
 ### Option A: Using the `gh` CLI (Recommended)
 If you have the GitHub CLI installed, run:
@@ -89,6 +92,8 @@ gh repo create my-new-barista-demo --public --description "Barista Agent Spec-Dr
 ---
 
 ## 🚀 Step 3: Initializing and Pushing the Code
+
+*(Note: If you used Option A above, this has already been done for you!)*
 
 Now, initialize git in your new folder, commit the base structure, and push it to your brand-new remote.
 
@@ -181,6 +186,23 @@ Once the implementation is approved, you are ready to lock in the work and close
    - Once all criteria of Issue #1 are implemented, tested, and committed, tell the agent:
      > "Please ship this issue: `/ship`"
    - The agent opens a Pull Request on GitHub from `issue/1-take-an-order` to `main`, waits for checks, merges it, deletes the branch, and automatically closes Issue #1 on GitHub!
+
+---
+
+## 🧹 Step 5: Cleaning Up the Demo Environment
+
+To clean up and completely tear down a demo session, you can use our automated cleanup utility `cleanup-demo.sh` located in the root of the template repository.
+
+This script will permanently delete both the remote GitHub repository and your local demo folder:
+
+```bash
+# Make sure you are in the template directory
+cd /home/user/sdd-barista-reference
+
+# Run the cleanup utility on your target directory
+./cleanup-demo.sh /home/user/my-new-barista-demo
+```
+The script will fetch your GitHub username, confirm the target remote path, ask for confirmation, and cleanly wipe both locations.
 
 ---
 
